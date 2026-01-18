@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"github.com/ratneshrt/xcode/database"
 	"github.com/ratneshrt/xcode/handlers"
@@ -11,7 +13,10 @@ import (
 
 func main() {
 	database.Connect()
-	database.DB.AutoMigrate(&models.User{})
+	if err := database.DB.AutoMigrate(&models.User{}); err != nil {
+		log.Fatal(err)
+	}
+
 	r := gin.Default()
 
 	// publicRoutes := r.Group("/p")
