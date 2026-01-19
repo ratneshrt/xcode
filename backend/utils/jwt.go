@@ -9,10 +9,12 @@ import (
 
 var secretKey = []byte("secretpassword")
 
-func GenerateToken(userID uint) (string, error) {
-	claims := jwt.MapClaims{}
-	claims["user_id"] = userID
-	claims["exp"] = time.Now().Add(time.Hour * 1).Unix() // token is valid from 1 hour
+func GenerateToken(userID uint, role string) (string, error) {
+	claims := jwt.MapClaims{
+		"user_id": userID,
+		"role":    role,
+		"exp":     time.Now().Add(time.Hour).Unix(),
+	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims) // HS256
 	return token.SignedString(secretKey)

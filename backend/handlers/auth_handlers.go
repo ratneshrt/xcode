@@ -21,7 +21,7 @@ func Login(c *gin.Context) {
 	}
 
 	var user models.User
-	if err := database.DB.Where("username = ?", input.Username).First(&user).Error; err != nil {
+	if err := database.AuthDB.Where("username = ?", input.Username).First(&user).Error; err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid credentials"})
 		return
 	}
@@ -31,7 +31,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.GenerateToken(user.ID)
+	token, err := utils.GenerateToken(user.ID, user.Role)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Token generation failed"})
 		return
@@ -45,6 +45,7 @@ func Register(c *gin.Context) {
 		Name     string `json:"name"`
 		Username string `json:"username"`
 		Password string `json:"password"`
+		Role     string `json:"role"`
 	}
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -62,9 +63,10 @@ func Register(c *gin.Context) {
 		Name:     input.Name,
 		Username: input.Username,
 		Password: hashedPassword,
+		Role:     input.Role,
 	}
 
-	if err := database.DB.Create(&user).Error; err != nil {
+	if err := database.AuthDB.Create(&user).Error; err != nil {
 		c.JSON(http.StatusConflict, gin.H{"error": "username already exists"})
 		return
 	}

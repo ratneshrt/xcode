@@ -7,16 +7,17 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
+var AuthDB *gorm.DB
 
-func Connect() {
+func ConnectAuthDB() {
 	var err error
 	dsn := "postgresql://postgres:mypassword@localhost:5432/postgres?sslmode=disable"
 
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Failed to connect to database: ", err)
 	}
 
-	log.Println("Postgres connected")
+	AuthDB = db
+	log.Println("AuthDB connected")
 }
