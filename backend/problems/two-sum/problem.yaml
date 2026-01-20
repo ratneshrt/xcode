@@ -1,0 +1,29 @@
+title: Two Sum
+slug: two-sum
+difficulty: easy
+status: published
+
+description: |
+  Given an array of integers nums and an integer target,
+  return indices of the two numbers such that they add up to target.
+
+constraints: |
+  2 ≤ nums.length ≤ 10^4
+  -10^9 ≤ nums[i] ≤ 10^9
+
+input_format: nums, target
+output_format: indices
+
+examples:
+  - input: "nums = [2,7,11,15], target = 9"
+    output: "[0,1]"
+    explanation: "2 + 7 = 9"
+
+test_cases:
+  - input: "2 7 11 15\n9"
+    expected_output: "0 1"
+    hidden: false
+
+  - input: "3 2 4\n6"
+    expected_output: "1 2"
+    hidden: true

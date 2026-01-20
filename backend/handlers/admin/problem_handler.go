@@ -2,6 +2,7 @@ package admin
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ratneshrt/xcode/database"
@@ -87,5 +88,42 @@ func CreateProblem(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{
 		"problem_id": problem.ID,
 		"status":     "draft",
+	})
+}
+
+func PublishProblem(c *gin.Context) {
+	id := c.Param("id")
+
+	var problem models.Problem
+
+	if err := database.ProblemDB.First(&problem, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "problem not found",
+		})
+		return
+	}
+
+	if problem.Status == "published" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "problem is already published",
+		})
+		return
+	}
+
+	now := time.Now()
+	problem.Status = "published"
+	problem.PublishedAt = &now
+
+	if err := database.ProblemDB.Save(&problem).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message":      "problem published",
+		"problem_id":   problem.ID,
+		"published_at": now,
 	})
 }

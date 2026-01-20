@@ -1,6 +1,10 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Problem struct {
 	gorm.Model
@@ -18,7 +22,8 @@ type Problem struct {
 	TimeLimitMs   int
 	MemoryLimitMs string
 
-	Status string
+	Status      string
+	PublishedAt *time.Time
 }
 
 type ProblemExample struct {

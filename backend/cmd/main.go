@@ -7,6 +7,7 @@ import (
 	"github.com/ratneshrt/xcode/database"
 	"github.com/ratneshrt/xcode/handlers"
 	adminHandlers "github.com/ratneshrt/xcode/handlers/admin"
+	publicHandlers "github.com/ratneshrt/xcode/handlers/public"
 	"github.com/ratneshrt/xcode/middleware"
 	"github.com/ratneshrt/xcode/models"
 )
@@ -33,11 +34,14 @@ func main() {
 
 	r.POST("/login", handlers.Login)
 	r.POST("/register", handlers.Register)
+	r.GET("/problems", publicHandlers.ListProblems)
+	r.GET("/problems/:slug", publicHandlers.GetProblemBySlug)
 
 	admin := r.Group("/admin")
 	admin.Use(middleware.Authentication(), middleware.AdminOnly())
 	{
 		admin.POST("/problems", adminHandlers.CreateProblem)
+		admin.POST("/problems/:id/publish", adminHandlers.PublishProblem)
 	}
 
 	r.Run(":8080")
