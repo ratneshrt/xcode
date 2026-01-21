@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"log"
 	"net/http"
 	"strings"
 
@@ -10,6 +11,9 @@ import (
 
 func Authentication() gin.HandlerFunc {
 	return func(c *gin.Context) {
+
+		log.Println("==========AUTH MIDDLEWARE HIT==========")
+
 		tokenString := c.GetHeader("Authorization")
 
 		if tokenString == "" {
@@ -34,7 +38,17 @@ func Authentication() gin.HandlerFunc {
 			return
 		}
 
-		c.Set("user_id", claims["user_id"])
+		// c.Set("user_id", claims["user_id"])
+		userIDFloat, ok := claims["user_id"].(float64)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"error": "invalid token payload",
+			})
+			c.Abort()
+			return
+		}
+
+		c.Set("userid", uint(userIDFloat))
 		c.Set("role", claims["role"])
 		c.Next()
 	}

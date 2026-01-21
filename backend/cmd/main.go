@@ -18,7 +18,7 @@ func main() {
 	database.ConnectAuthDB()
 	database.ConnectProblemDB()
 
-	if err := database.AuthDB.AutoMigrate(&models.User{}); err != nil {
+	if err := database.AuthDB.AutoMigrate(&models.User{}, &models.Submission{}); err != nil {
 		log.Fatal(err)
 	}
 
@@ -36,6 +36,7 @@ func main() {
 	r.POST("/register", handlers.Register)
 	r.GET("/problems", publicHandlers.ListProblems)
 	r.GET("/problems/:slug", publicHandlers.GetProblemBySlug)
+	r.POST("/submission", middleware.Authentication(), publicHandlers.CreateSubmission)
 
 	admin := r.Group("/admin")
 	admin.Use(middleware.Authentication(), middleware.AdminOnly())

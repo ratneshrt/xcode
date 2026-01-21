@@ -1,8 +1,8 @@
 package main
 
 import (
-	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 
 	"github.com/goccy/go-yaml"
@@ -12,13 +12,13 @@ import (
 func main() {
 	database.ConnectProblemDB()
 
-	files, err := filepath.Glob("problems/*/problem.yaml")
+	files, err := filepath.Glob("problems/*/problem.yaml") //specific the file path
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	for _, file := range files {
-		data, err := ioutil.ReadFile(file)
+		data, err := os.ReadFile(file)
 		if err != nil {
 			log.Fatal(err)
 		}
