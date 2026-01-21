@@ -1,12 +1,14 @@
 package public
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ratneshrt/xcode/database"
 	"github.com/ratneshrt/xcode/handlers/public/dto"
 	"github.com/ratneshrt/xcode/models"
+	"github.com/ratneshrt/xcode/queue"
 )
 
 func CreateSubmission(c *gin.Context) {
@@ -40,6 +42,29 @@ func CreateSubmission(c *gin.Context) {
 	if err := database.AuthDB.Create(&submission).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "failed to create submission",
+		})
+		return
+	}
+
+	job := queue.SubmissionJob{
+		SubmissionID: submission.ID,
+	}
+
+	payload, err := json.Marshal(job)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "failed to enqueue job",
+		})
+		return
+	}
+
+	if err := queue.RDB.LPush(
+		queue.Ctx,
+		queue.SubmissionQueue,
+		payload,
+	).Err(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "failed to enqueue submission",
 		})
 		return
 	}

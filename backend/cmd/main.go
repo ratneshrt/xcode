@@ -10,6 +10,7 @@ import (
 	publicHandlers "github.com/ratneshrt/xcode/handlers/public"
 	"github.com/ratneshrt/xcode/middleware"
 	"github.com/ratneshrt/xcode/models"
+	"github.com/ratneshrt/xcode/queue"
 )
 
 // postgresql://postgres:mysecretpassword@localhost:5432/postgres
@@ -17,6 +18,7 @@ import (
 func main() {
 	database.ConnectAuthDB()
 	database.ConnectProblemDB()
+	queue.ConnectRedis()
 
 	if err := database.AuthDB.AutoMigrate(&models.User{}, &models.Submission{}); err != nil {
 		log.Fatal(err)
