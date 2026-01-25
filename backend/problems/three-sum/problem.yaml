@@ -1,0 +1,36 @@
+title: Three Sum
+slug: three-sum
+difficulty: medium
+status: published
+
+description: |
+  Given an integer array nums, return all the unique triplets
+  [nums[i], nums[j], nums[k]] such that i != j != k and
+  nums[i] + nums[j] + nums[k] == 0.
+
+  The solution set must not contain duplicate triplets.
+
+constraints: |
+  3 <= nums.length <= 3000
+  -10^5 <= nums[i] <= 10^5
+
+input_format: |
+  An integer array nums
+
+output_format: |
+  A list of unique triplets whose sum is zero
+
+examples:
+  - input: nums = [-1,0,1,2,-1,-4]
+    output: "[[-1,-1,2],[-1,0,1]]"
+    explanation: |
+      The unique triplets that sum to zero are [-1,-1,2] and [-1,0,1].
+
+test_cases:
+  - input: "-1 0 1 2 -1 -4\n"
+    expected_output: "-1 -1 2\n-1 0 1"
+    is_hidden: false
+
+  - input: "0 0 0 0\n"
+    expected_output: "0 0 0"
+    is_hidden: true

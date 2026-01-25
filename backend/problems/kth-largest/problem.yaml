@@ -1,0 +1,38 @@
+title: Kth Largest Element in an Array
+slug: kth-largest
+difficulty: medium
+status: published
+
+description: |
+  Given an integer array nums and an integer k,
+  return the kth largest element in the array.
+
+  Note that it is the kth largest element in sorted order,
+  not the kth distinct element.
+
+constraints: |
+  1 <= k <= nums.length <= 10^5
+  -10^4 <= nums[i] <= 10^4
+
+input_format: |
+  nums (array of integers)
+  k (integer)
+
+output_format: |
+  The kth largest element
+
+examples:
+  - input: nums = [3,2,1,5,6,4], k = 2
+    output: 5
+    explanation: |
+      The sorted array is [1,2,3,4,5,6].
+      The 2nd largest element is 5.
+
+test_cases:
+  - input: "3 2 1 5 6 4\n2\n"
+    expected_output: "5"
+    is_hidden: false
+
+  - input: "3 2 3 1 2 4 5 5 6\n4\n"
+    expected_output: "4"
+    is_hidden: true

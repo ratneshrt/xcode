@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 func ValidateProblem(p *ProblemYAML) error {
 	if p.Title == "" {
@@ -17,6 +20,18 @@ func ValidateProblem(p *ProblemYAML) error {
 
 	if len(p.TestCases) == 0 {
 		return fmt.Errorf("at least one test case is required")
+	}
+
+	hasPublic := false
+	for _, tc := range p.TestCases {
+		if !tc.Hidden {
+			hasPublic = true
+			break
+		}
+	}
+
+	if !hasPublic {
+		return errors.New("at least one non-hidden test case is required")
 	}
 
 	return nil
