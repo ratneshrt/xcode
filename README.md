@@ -5,7 +5,6 @@ It supports secure authentication, problem management, asynchronous code executi
 
 This project focuses on **real-world backend engineering**, **security**, and **scalability**, rather than only solving algorithmic problems.
 
----
 
 ## ✨ Features
 
@@ -20,7 +19,6 @@ This project focuses on **real-world backend engineering**, **security**, and **
 - 🔁 Idempotent background workers
 - 🧠 Production-grade system design
 
----
 
 ## 🧩 System Components
 
@@ -43,7 +41,6 @@ This project focuses on **real-world backend engineering**, **security**, and **
 
 User-submitted code is **never executed directly** by the API server.
 
----
 
 ### 2️⃣ Problem Worker (Problem Ingestion Service)
 
@@ -64,7 +61,6 @@ Problems are managed as **YAML files**, not manual database entries.
 
 This approach follows **Content as Code**, commonly used in production systems.
 
----
 
 ### 3️⃣ Submission Processing
 
@@ -75,7 +71,6 @@ When a user submits code:
 
 This design ensures low latency and allows the system to scale independently of execution workloads.
 
----
 
 ### 4️⃣ Execution Worker (Judge Engine)
 
@@ -93,7 +88,6 @@ This design ensures low latency and allows the system to scale independently of 
 - `runtime_error`
 - `time_limit_exceeded`
 
----
 
 ## 🐳 Secure Code Execution with Docker
 
@@ -112,11 +106,6 @@ A custom Docker image is used as a controlled execution environment.
 
 This design closely resembles the execution model used by real online judges.
 
----
-
-
----
-
 ## ⚙️ Setup Requirements
 
 - Go 1.22+
@@ -124,7 +113,6 @@ This design closely resembles the execution model used by real online judges.
 - PostgreSQL
 - Redis
 
----
 
 ## 🧠 Key Engineering Concepts Demonstrated
 
@@ -137,7 +125,6 @@ This design closely resembles the execution model used by real online judges.
 - Idempotent background workers
 - Production debugging and fault isolation
 
----
 
 ## 🎯 Interview Talking Points
 
@@ -145,7 +132,6 @@ You can confidently describe this project as:
 
 > “A LeetCode-like backend platform built in Go, featuring asynchronous code execution using Redis and worker processes, secure Docker-based sandboxes for untrusted code, and YAML-based problem ingestion following a Content-as-Code approach.”
 
----
 
 ## 🚀 Future Enhancements
 
@@ -155,4 +141,3 @@ You can confidently describe this project as:
 - Execution metrics and observability
 - Web frontend
 - CI validation for problem YAML files
----
